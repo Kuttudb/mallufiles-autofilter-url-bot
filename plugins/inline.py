@@ -3,8 +3,7 @@ from pyrogram import Client, emoji, filters
 from pyrogram.errors.exceptions.bad_request_400 import QueryIdInvalid
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, InlineQueryResultCachedDocument, InlineQuery
 from database.ia_filterdb import get_search_results
-from utils import is_subscribed, get_size, get_shortlink, temp
-from utils import get_shortlink
+from utils import is_subscribed, get_size, temp
 from info import CACHE_TIME, AUTH_USERS, AUTH_CHANNEL, CUSTOM_FILE_CAPTION
 
 logger = logging.getLogger(__name__)
@@ -57,7 +56,6 @@ async def answer(bot, query):
     for file in files:
         title=file.file_name
         size=get_size(file.file_size)
-        url=await get_shortlink(f"https://t.me/{temp.U_NAME}?start=files_{file.file_id}")
         f_caption=file.caption
         if CUSTOM_FILE_CAPTION:
             try:
@@ -72,7 +70,7 @@ async def answer(bot, query):
                 title=file.file_name,
                 document_file_id=file.file_id,
                 caption=f_caption,
-                url=await get_shortlink(f"https://t.me/{temp.U_NAME}?start=files_{file.file_id}"),
+                url=f'https://t.me/cyclonickfilterbot?start=files_{file.file_id}',
                 description=f'Size: {get_size(file.file_size)}\nType: {file.file_type}',
                 reply_markup=reply_markup))
 
